@@ -52,13 +52,23 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = src/GameWindow.cpp \
-		src/Map.cpp moc_GameWindow.cpp \
-		moc_Map.cpp
-OBJECTS       = GameWindow.o \
+SOURCES       = qrc_resources.cpp \
+		src/Character.cpp \
+		src/GameWindow.cpp \
+		src/Map.cpp \
+		src/Pac.cpp moc_Character.cpp \
+		moc_GameWindow.cpp \
+		moc_Map.cpp \
+		moc_Pac.cpp
+OBJECTS       = qrc_resources.o \
+		Character.o \
+		GameWindow.o \
 		Map.o \
+		Pac.o \
+		moc_Character.o \
 		moc_GameWindow.o \
-		moc_Map.o
+		moc_Map.o \
+		moc_Pac.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf \
@@ -136,9 +146,14 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exceptions.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
-		PacMan.pro src/GameWindow.h \
-		src/Map.h src/GameWindow.cpp \
-		src/Map.cpp
+		PacMan.pro src/Character.h \
+		src/GameWindow.h \
+		src/Map.h \
+		src/Pac.h qrc_resources.cpp \
+		src/Character.cpp \
+		src/GameWindow.cpp \
+		src/Map.cpp \
+		src/Pac.cpp
 QMAKE_TARGET  = PacMan
 DESTDIR       = 
 TARGET        = PacMan
@@ -322,8 +337,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents src/GameWindow.h src/Map.h $(DISTDIR)/
-	$(COPY_FILE) --parents src/GameWindow.cpp src/Map.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents src/Character.h src/GameWindow.h src/Map.h src/Pac.h $(DISTDIR)/
+	$(COPY_FILE) --parents qrc_resources.cpp src/Character.cpp src/GameWindow.cpp src/Map.cpp src/Pac.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -355,19 +370,32 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 	g++ -pipe -O2 -Wall -Wextra -dM -E -o moc_predefs.h /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_GameWindow.cpp moc_Map.cpp
+compiler_moc_header_make_all: moc_Character.cpp moc_GameWindow.cpp moc_Map.cpp moc_Pac.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_GameWindow.cpp moc_Map.cpp
+	-$(DEL_FILE) moc_Character.cpp moc_GameWindow.cpp moc_Map.cpp moc_Pac.cpp
+moc_Character.cpp: src/Character.h \
+		moc_predefs.h \
+		/usr/lib/qt5/bin/moc
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan -I/mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/Character.h -o moc_Character.cpp
+
 moc_GameWindow.cpp: src/GameWindow.h \
 		src/Map.h \
+		src/Character.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include /mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan -I/mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/GameWindow.h -o moc_GameWindow.cpp
 
 moc_Map.cpp: src/Map.h \
+		src/Character.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include /mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan -I/mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/Map.h -o moc_Map.cpp
+
+moc_Pac.cpp: src/Pac.h \
+		src/Character.h \
+		moc_predefs.h \
+		/usr/lib/qt5/bin/moc
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan -I/mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/Pac.h -o moc_Pac.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -385,18 +413,37 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean
 
 ####### Compile
 
+qrc_resources.o: qrc_resources.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_resources.o qrc_resources.cpp
+
+Character.o: src/Character.cpp src/Character.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Character.o src/Character.cpp
+
 GameWindow.o: src/GameWindow.cpp src/GameWindow.h \
-		src/Map.h
+		src/Map.h \
+		src/Character.h \
+		src/Pac.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o GameWindow.o src/GameWindow.cpp
 
-Map.o: src/Map.cpp src/Map.h
+Map.o: src/Map.cpp src/Map.h \
+		src/Character.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Map.o src/Map.cpp
+
+Pac.o: src/Pac.cpp src/Pac.h \
+		src/Character.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Pac.o src/Pac.cpp
+
+moc_Character.o: moc_Character.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_Character.o moc_Character.cpp
 
 moc_GameWindow.o: moc_GameWindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_GameWindow.o moc_GameWindow.cpp
 
 moc_Map.o: moc_Map.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_Map.o moc_Map.cpp
+
+moc_Pac.o: moc_Pac.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_Pac.o moc_Pac.cpp
 
 ####### Install
 

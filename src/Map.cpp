@@ -1,4 +1,5 @@
 #include "Map.h"
+#include <QDebug>
 
 Map::Map(QObject *parent, size_t width, size_t height) : QGraphicsScene(parent), width(width), height(height) {
     if (width < height){
@@ -20,6 +21,14 @@ void Map::setupMap() {
         }
     }
     setBackgroundBrush(QBrush(Qt::black));
+}
+
+void Map::update() {
+    for (Character *character : characters) {
+        character->move();
+    }
+    qDebug() << "Game updated";
+
 }
 
 Map::MapTile::MapTile(unsigned int x, unsigned int y, unsigned int size) {
@@ -47,4 +56,12 @@ void Map::Wall::setBottom(bool bottom) {
 }
 void Map::Wall::setLeft(bool left) {
     this->left = left;
+}
+
+QVector<Character *> Map::getCharacters() {
+    return characters;
+}
+
+void Map::addCharacter(Character *character) {
+    characters.push_back(character);
 }

@@ -1,6 +1,8 @@
 #pragma once
 #include <QGraphicsRectItem>
 #include <QGraphicsScene>
+#include <QVector>
+#include "Character.h"
 
 #define ARRAY_WIDTH 25
 #define ARRAY_HEIGHT 25
@@ -40,11 +42,14 @@ class Map: public QGraphicsScene{
 public:
     Map(QObject *parent = nullptr, size_t width = 800, size_t height = 600);
     void setupMap();
+    void update();
+    QVector<Character*> getCharacters();
+    void addCharacter(Character* character);
 
 private:
     unsigned int width, height, tileSize;
     unsigned int map[ARRAY_WIDTH][ARRAY_HEIGHT] = MAP_ARRAY;
-    
+    QVector<Character*> characters;
 
     class MapTile: public QGraphicsRectItem{
     public:
@@ -53,7 +58,6 @@ private:
         unsigned int x, y, size;
         unsigned int getSize();
     };
-
     class Wall: public MapTile{
     public:
         Wall(unsigned int x,unsigned int y, unsigned int size);   
