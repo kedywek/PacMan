@@ -2,7 +2,6 @@
 #include <QGraphicsRectItem>
 #include <QGraphicsScene>
 #include <QVector>
-#include "Character.h"
 
 #define ARRAY_WIDTH 25
 #define ARRAY_HEIGHT 25
@@ -22,7 +21,7 @@
     {1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1},\
     {0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},\
     {1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1},\
-    {1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1},\
+    {1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 2, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1},\
     {1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1},\
     {1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1},\
     {1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1},\
@@ -35,6 +34,13 @@
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},\
 }
 
+class Character;
+
+enum TypeOfTile {
+    NONE = 0,
+    WALL = 1,
+    PAC = 2
+};
  
 class Map: public QGraphicsScene{
     Q_OBJECT
@@ -45,18 +51,16 @@ public:
     void update();
     QVector<Character*> getCharacters();
     void addCharacter(Character* character);
-
-private:
-    unsigned int width, height, tileSize;
-    unsigned int map[ARRAY_WIDTH][ARRAY_HEIGHT] = MAP_ARRAY;
-    QVector<Character*> characters;
-
+    TypeOfTile getTypeOfTopTile(int x, int y);
+    QGraphicsItem* getCharacterAt(int x, int y);
     class MapTile: public QGraphicsRectItem{
     public:
         MapTile(unsigned int x,unsigned int y, unsigned int size);
+        TypeOfTile getType();
     private:
         unsigned int x, y, size;
         unsigned int getSize();
+        TypeOfTile type;
     };
     class Wall: public MapTile{
     public:
@@ -69,4 +73,11 @@ private:
     private:
         bool top = false, right = false, bottom = false, left = false;
     };
+private:
+    unsigned int width, height, tileSize;
+    unsigned int map[ARRAY_WIDTH][ARRAY_HEIGHT] = MAP_ARRAY;
+    QVector<Character*> characters;
+
+    
+    
 };

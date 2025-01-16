@@ -12,6 +12,8 @@
         "string": "cpp",
         "vector": "cpp",
         "qpixmap": "cpp",
-        "stdexcept": "cpp"
+        "stdexcept": "cpp",
+        "random": "cpp",
+        "qdebug": "cpp"
     }
 }

@@ -4,7 +4,7 @@
 class Pac : public Character {
     Q_OBJECT
 public:
-    Pac(int x, int y, int direction, int speed);
+    Pac(int x, int y, int speed, Map *map, Direction direction, int size);
 
 protected:
     void keyPressEvent(QKeyEvent *event) override;

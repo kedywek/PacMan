@@ -18,6 +18,7 @@ public:
     State getState();
     void update();
     void setState(State state);
+    
 
 private:
     State state;

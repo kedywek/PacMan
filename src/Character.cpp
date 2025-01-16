@@ -1,20 +1,23 @@
 #include "Character.h"
 #include <QDebug>
+#include "Map.h"
 
-Character::Character(int x, int y, int direction, int speed, QVector<QPixmap> sprites)
-    : QObject(), QGraphicsPixmapItem(), x(x), y(y), direction(direction), speed(speed), sprites(sprites) {
+Character::Character(int x, int y, int speed, QVector<QPixmap> sprites, Map *map, Direction direction,int size)
+    : map(map), x(x), y(y), speed(speed), direction(direction), nextDirection(direction), sprites(sprites), size(size) {
     setPixmap(sprites[0]);
     setPos(x, y);
 }
 
 void Character::move(int x, int y) {
-
     moveBy(x, y);
     this->x += x;
     this->y += y;
 }
 
 void Character::move() {
+    if (collidesWithWall(direction)) {
+        return;
+    }
     switch (direction) {
         case UP:
             move(0, - speed);
@@ -31,7 +34,7 @@ void Character::move() {
     }
 }
 
-void Character::setDirection(int direction) {
+void Character::setDirection(Direction direction) {
     this->direction = direction;
 }
 
@@ -59,3 +62,43 @@ void Character::setSprite(int index) {
     }
 }
 
+void Character::setNextDirection(Direction direction) {
+    this->nextDirection = direction;
+}
+int Character::getX() {
+    return x;
+}
+int Character::getY() {
+    return y;
+}
+int Character::getSpeed() {
+    return speed;
+}
+Direction Character::getDirection() {
+    return direction;
+}
+void Character::changeDirection() {
+    if (nextDirection == direction) {
+        return;
+    }
+    if (collidesWithWall(nextDirection)) {
+        return;
+    }
+    direction = nextDirection;
+}
+int Character::getSize() {
+    return size;
+}
+bool Character::collidesWithWall(Direction direction) {
+    switch (direction) {
+        case UP:
+            return map->getTypeOfTopTile(x, y - speed) == WALL || map->getTypeOfTopTile(x + size - 1, y - speed) == WALL;
+        case RIGHT:
+            return map->getTypeOfTopTile(x + speed + size - 1, y) == WALL || map->getTypeOfTopTile(x + speed + size - 1, y + size - 1) == WALL;
+        case DOWN:
+            return map->getTypeOfTopTile(x, y + speed + size - 1) == WALL || map->getTypeOfTopTile(x + size - 1, y + speed + size - 1) == WALL;
+        case LEFT:
+            return map->getTypeOfTopTile(x - speed, y) == WALL || map->getTypeOfTopTile(x - speed, y + size - 1) == WALL;
+    }
+    return false;
+}

@@ -2,7 +2,7 @@
 #include <QKeyEvent>
 #include <QDebug>
 
-Pac::Pac(int x, int y, int direction, int speed) : Character(x, y, direction, speed, QVector<QPixmap>()) {
+Pac::Pac(int x, int y, int speed, Map* map, Direction direction, int size) : Character(x, y, speed, QVector<QPixmap>(), map, direction, size) {
     for (int i = 0; i < 1; i++) {
         QPixmap pixmap(QString(":/assets/pac%0.png").arg(i));
         if (pixmap.isNull()) {
@@ -22,31 +22,27 @@ void Pac::keyPressEvent(QKeyEvent *event) {
     switch (event->key()) {
         case Qt::Key_Up:
             moveUp();
-            qDebug() << "Pac moved up";
             break;
         case Qt::Key_Down:
             moveDown();
-            qDebug() << "Pac moved down";
             break;
         case Qt::Key_Left:
             moveLeft();
-            qDebug() << "Pac moved left";
             break;
         case Qt::Key_Right:
             moveRight();
-            qDebug() << "Pac moved right";
             break;
     }
 }
 void Pac::moveUp() {
-    setDirection(UP);
+    setNextDirection(UP);
 }
 void Pac::moveDown() {
-    setDirection(DOWN);
+    setNextDirection(DOWN);
 }
 void Pac::moveLeft() {
-    setDirection(LEFT);
+    setNextDirection(LEFT);
 }
 void Pac::moveRight() {
-    setDirection(RIGHT);
+    setNextDirection(RIGHT);
 }

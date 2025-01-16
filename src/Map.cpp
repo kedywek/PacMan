@@ -1,5 +1,7 @@
 #include "Map.h"
 #include <QDebug>
+#include "Pac.h"
+
 
 Map::Map(QObject *parent, size_t width, size_t height) : QGraphicsScene(parent), width(width), height(height) {
     if (width < height){
@@ -14,9 +16,21 @@ Map::Map(QObject *parent, size_t width, size_t height) : QGraphicsScene(parent),
 void Map::setupMap() {
     for (size_t i = 0; i < ARRAY_WIDTH; i++) {
         for (size_t j = 0; j < ARRAY_HEIGHT; j++) {
-            if (map[i][j] == 1) {
-                Wall *wall = new Wall(j, i, tileSize);
-                addItem(wall);  
+            Wall *wall = nullptr;
+            Pac *pac = nullptr;
+            switch (map[i][j]) {
+                case 1:
+                    wall = new Wall(j, i, tileSize);
+                    addItem(wall);  
+                    break;
+                case 2:
+                    pac = new Pac(j*tileSize, i*tileSize, 4, this, RIGHT, tileSize);
+                    addItem(pac);
+                    addCharacter(pac);
+                    pac->setFocus();
+                    break;
+                default:
+                    break;
             }
         }
     }
@@ -26,9 +40,8 @@ void Map::setupMap() {
 void Map::update() {
     for (Character *character : characters) {
         character->move();
+        character->changeDirection();
     }
-    qDebug() << "Game updated";
-
 }
 
 Map::MapTile::MapTile(unsigned int x, unsigned int y, unsigned int size) {
@@ -43,6 +56,10 @@ Map::Wall::Wall(unsigned int x, unsigned int y, unsigned int size) : MapTile(x, 
 }
 unsigned int Map::MapTile::getSize() {
     return size;
+}
+
+TypeOfTile Map::MapTile::getType() {
+    return type;
 }
 
 void Map::Wall::setTop(bool top) {
@@ -64,4 +81,31 @@ QVector<Character *> Map::getCharacters() {
 
 void Map::addCharacter(Character *character) {
     characters.push_back(character);
+}
+
+
+TypeOfTile Map::getTypeOfTopTile(int x, int y) {
+    QList<QGraphicsItem*> itemsAtPoint = items(QPointF(x, y));
+    if (!itemsAtPoint.isEmpty())
+    {
+        QGraphicsItem* topItem = itemsAtPoint.first();
+        if (dynamic_cast<Wall*>(topItem))
+        {
+            return WALL;
+        }
+    }
+    return NONE;
+}
+
+QGraphicsItem *Map::getCharacterAt(int x, int y) {
+    QList<QGraphicsItem*> itemsAtPoint = items(QPointF(x, y));
+    if (!itemsAtPoint.isEmpty())
+    {
+        QGraphicsItem* topItem = itemsAtPoint.first();
+        if (dynamic_cast<Character*>(topItem))
+        {
+            return topItem;
+        }
+    }
+    return nullptr;
 }

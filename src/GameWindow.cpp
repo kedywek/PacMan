@@ -23,10 +23,6 @@ void GameWindow::setupGame(size_t width, size_t height) {
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setViewportMargins(0, 0, 0, 0);
     map->setupMap();
-    Pac *pac = new Pac(0, 0, 0, 5);
-    map->addItem(pac);
-    map->addCharacter(pac);
-    pac->setFocus();
     show();
 }
 
@@ -45,7 +41,7 @@ int main(int argc, char *argv[]) {
             game.update();
         }
     });
-    timer.start(1000);
+    timer.start(50);
 
     return a.exec();
 }
