@@ -380,13 +380,11 @@ moc_Character.cpp: src/Character.h \
 
 moc_GameWindow.cpp: src/GameWindow.h \
 		src/Map.h \
-		src/Character.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include /mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan -I/mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/GameWindow.h -o moc_GameWindow.cpp
 
 moc_Map.cpp: src/Map.h \
-		src/Character.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include /mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan -I/mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/Map.h -o moc_Map.cpp
@@ -416,16 +414,18 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean
 qrc_resources.o: qrc_resources.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_resources.o qrc_resources.cpp
 
-Character.o: src/Character.cpp src/Character.h
+Character.o: src/Character.cpp src/Character.h \
+		src/Map.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Character.o src/Character.cpp
 
 GameWindow.o: src/GameWindow.cpp src/GameWindow.h \
 		src/Map.h \
-		src/Character.h \
-		src/Pac.h
+		src/Pac.h \
+		src/Character.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o GameWindow.o src/GameWindow.cpp
 
 Map.o: src/Map.cpp src/Map.h \
+		src/Pac.h \
 		src/Character.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Map.o src/Map.cpp
 

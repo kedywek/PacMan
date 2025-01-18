@@ -1,4 +1,5 @@
 #pragma once
+#include <QGraphicsItemGroup>
 #include <QGraphicsRectItem>
 #include <QGraphicsScene>
 #include <QVector>
@@ -26,7 +27,7 @@
     {1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1},\
     {1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1},\
     {1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1},\
-    {1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1},\
+    {1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1},\
     {1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1},\
     {1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1},\
     {1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1},\
@@ -53,10 +54,12 @@ public:
     void addCharacter(Character* character);
     TypeOfTile getTypeOfTopTile(int x, int y);
     QGraphicsItem* getCharacterAt(int x, int y);
-    class MapTile: public QGraphicsRectItem{
+    void teleportCharacter(Character* character);
+    class MapTile: public QGraphicsItemGroup{
     public:
         MapTile(unsigned int x,unsigned int y, unsigned int size);
         TypeOfTile getType();
+        void setType(TypeOfTile type);
     private:
         unsigned int x, y, size;
         unsigned int getSize();
