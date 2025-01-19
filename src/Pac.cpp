@@ -4,7 +4,7 @@
 
 Pac::Pac(int x, int y, int speed, Map* map, Direction direction, int size) : Character(x, y, speed, QVector<QPixmap>(), map, direction, size) {
     for (int i = 0; i < 1; i++) {
-        QPixmap pixmap(QString(":/assets/pac%0.png").arg(i));
+        QPixmap pixmap(QString(":/assets/pac/pac%0.png").arg(i));
         if (pixmap.isNull()) {
             qDebug() << "Failed to load pixmap for pac" << i;
             throw std::runtime_error("Failed to load pixmap for pac");
@@ -45,4 +45,88 @@ void Pac::moveLeft() {
 }
 void Pac::moveRight() {
     setNextDirection(RIGHT);
+}
+
+void Pac::checkCollisionWithCollectibles() {
+    QGraphicsItem *item = nullptr;
+    QGraphicsItem *itemTop = nullptr;
+    QGraphicsItem *itemBottom = nullptr;
+    switch (this->getDirection()) {
+        case UP:
+            for (size_t i = this->speed; i > 0; i--) {
+                item = map->getCollectibleAt(x + this->size/2, y + i);
+                if (Collectible* collectible = dynamic_cast<Collectible*>(item)) {
+                    map->removeCollectible(collectible);
+                    delete collectible;
+                }
+                itemTop = map->getCollectibleAt(x, y + i + this->size/2);
+                if (Collectible* collectible = dynamic_cast<Collectible*>(itemTop)) {
+                    map->removeCollectible(collectible);
+                    delete collectible;
+                }
+                itemBottom = map->getCollectibleAt(x + this->size, y + i + this->size/2);
+                if (Collectible* collectible = dynamic_cast<Collectible*>(itemBottom)) {
+                    map->removeCollectible(collectible);
+                    delete collectible;
+                }
+            }
+            break;
+        case RIGHT:
+            for (size_t i = this->speed; i > 0; i--) {
+                item = map->getCollectibleAt(x + this->size - i, y + this->size/2);
+                if (Collectible* collectible = dynamic_cast<Collectible*>(item)) {
+                    map->removeCollectible(collectible);
+                    delete collectible;
+                }
+                itemTop = map->getCollectibleAt(x + this->size/2 - i, y);
+                if (Collectible* collectible = dynamic_cast<Collectible*>(itemTop)) {
+                    map->removeCollectible(collectible);
+                    delete collectible;
+                }
+                itemBottom = map->getCollectibleAt(x + this->size/2 - i, y + this->size);
+                if (Collectible* collectible = dynamic_cast<Collectible*>(itemBottom)) {
+                    map->removeCollectible(collectible);
+                    delete collectible;
+                }
+            }
+            break;
+        case DOWN:
+            for (size_t i = this->speed; i > 0; i--) {
+                item = map->getCollectibleAt(x + this->size/2, y + this->size - i);
+                if (Collectible* collectible = dynamic_cast<Collectible*>(item)) {
+                    map->removeCollectible(collectible);
+                    delete collectible;
+                }
+                itemTop = map->getCollectibleAt(x, y + this->size/2 - i );
+                if (Collectible* collectible = dynamic_cast<Collectible*>(itemTop)) {
+                    map->removeCollectible(collectible);
+                    delete collectible;
+                }
+                itemBottom = map->getCollectibleAt(x + this->size, y + this->size/2 - i);
+                if (Collectible* collectible = dynamic_cast<Collectible*>(itemBottom)) {
+                    map->removeCollectible(collectible);
+                    delete collectible;
+                }
+            }
+            break;
+        case LEFT:
+            for (size_t i = this->speed; i > 0; i--) {
+                item = map->getCollectibleAt(x + i, y + this->size/2);
+                if (Collectible* collectible = dynamic_cast<Collectible*>(item)) {
+                    map->removeCollectible(collectible);
+                    delete collectible;
+                }
+                itemTop = map->getCollectibleAt(x + i + this->size/2, y);
+                if (Collectible* collectible = dynamic_cast<Collectible*>(itemTop)) {
+                    map->removeCollectible(collectible);
+                    delete collectible;
+                }
+                itemBottom = map->getCollectibleAt(x + i + this->size/2, y + this->size);
+                if (Collectible* collectible = dynamic_cast<Collectible*>(itemBottom)) {
+                    map->removeCollectible(collectible);
+                    delete collectible;
+                }
+            }
+            break;
+    }
 }

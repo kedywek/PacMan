@@ -1,12 +1,12 @@
 #include "Character.h"
 #include <QDebug>
-#include "Map.h"
 
-Character::Character(int x, int y, int speed, QVector<QPixmap> sprites, Map *map, Direction direction,int size)
-    : map(map), x(x), y(y), speed(speed), direction(direction), nextDirection(direction), sprites(sprites), size(size) {
+Character::Character(int x, int y, int speed, QVector<QPixmap> sprites, Map *map, Direction direction, int size)
+    : direction(direction), nextDirection(direction), sprites(sprites), map(map), x(x), y(y), speed(speed), size(size) {
     setPixmap(sprites[0]);
     setPos(x, y);
 }
+
 
 void Character::move(int x, int y) {
     moveBy(x, y);
@@ -30,6 +30,8 @@ void Character::move() {
             break;
         case LEFT:
             move(- speed, 0);
+            break;
+        case NO_DIRECTION:
             break;
     }
 }
@@ -92,13 +94,20 @@ int Character::getSize() {
 bool Character::collidesWithWall(Direction direction) {
     switch (direction) {
         case UP:
-            return map->getTypeOfTopTile(x, y - speed) == WALL || map->getTypeOfTopTile(x + size - 1, y - speed) == WALL;
+            return map->getTypeOfTopObject(x, y - speed) == WALL || map->getTypeOfTopObject(x + size - 1, y - speed) == WALL;
         case RIGHT:
-            return map->getTypeOfTopTile(x + speed + size - 1, y) == WALL || map->getTypeOfTopTile(x + speed + size - 1, y + size - 1) == WALL;
+            return map->getTypeOfTopObject(x + speed + size - 1, y) == WALL || map->getTypeOfTopObject(x + speed + size - 1, y + size - 1) == WALL;
         case DOWN:
-            return map->getTypeOfTopTile(x, y + speed + size - 1) == WALL || map->getTypeOfTopTile(x + size - 1, y + speed + size - 1) == WALL;
+            return map->getTypeOfTopObject(x, y + speed + size - 1) == WALL || map->getTypeOfTopObject(x + size - 1, y + speed + size - 1) == WALL;
         case LEFT:
-            return map->getTypeOfTopTile(x - speed, y) == WALL || map->getTypeOfTopTile(x - speed, y + size - 1) == WALL;
+            return map->getTypeOfTopObject(x - speed, y) == WALL || map->getTypeOfTopObject(x - speed, y + size - 1) == WALL;
+        case NO_DIRECTION:
+            return false;
     }
     return false;
+}
+
+void Character::nextSprite() {
+    this->currentSprite = (this->currentSprite + 1) % this->sprites.size();
+    setPixmap(sprites[this->currentSprite]);
 }

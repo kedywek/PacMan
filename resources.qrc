@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>assets/pac/pac0.png</file>
+        <!-- Add other image files if needed -->
+    </qresource>
+</RCC>

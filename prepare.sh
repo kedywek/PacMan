@@ -1,3 +1,3 @@
 qmake -project
-qmake QT+=widgets
-make
+echo "QT += widgets" >> PacMan.pro
+qmake

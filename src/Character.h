@@ -3,13 +3,15 @@
 #include <QVector>
 #include <QPixmap>
 #include <QObject>
+#include "Map.h"
 
 class Map;
 enum Direction {
     UP = 0,
     RIGHT = 1,
     DOWN = 2,
-    LEFT = 3
+    LEFT = 3,
+    NO_DIRECTION = 4
 };
 
 class Character : public QObject, public QGraphicsPixmapItem {
@@ -21,6 +23,7 @@ public:
     void setDirection(Direction direction);
     void setSpeed(int speed);
     void setSprites(QVector<QPixmap> sprites);
+    void nextSprite();
     void addSprite(QPixmap sprite);
     void setSprite(int index);
     void setNextDirection(Direction direction); 
@@ -33,9 +36,10 @@ public:
     int getSize();
 
 private:
-    Map* map;
-    int x, y, speed, currentSprite = 0;
     Direction direction, nextDirection;
     QVector<QPixmap> sprites;
-    int size;
+
+protected:
+    Map* map;
+    int x, y, speed, currentSprite = 0, size;
 };
