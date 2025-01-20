@@ -52,19 +52,22 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = src/Character.cpp \
+SOURCES       = src/AStar.cpp \
+		src/Character.cpp \
 		src/Collectible.cpp \
 		src/GameWindow.cpp \
 		src/Ghost.cpp \
 		src/Map.cpp \
 		src/Pac.cpp \
 		src/Point.cpp qrc_resources.cpp \
+		moc_Blinky.cpp \
 		moc_Character.cpp \
 		moc_GameWindow.cpp \
 		moc_Ghost.cpp \
 		moc_Map.cpp \
 		moc_Pac.cpp
-OBJECTS       = Character.o \
+OBJECTS       = AStar.o \
+		Character.o \
 		Collectible.o \
 		GameWindow.o \
 		Ghost.o \
@@ -72,6 +75,7 @@ OBJECTS       = Character.o \
 		Pac.o \
 		Point.o \
 		qrc_resources.o \
+		moc_Blinky.o \
 		moc_Character.o \
 		moc_GameWindow.o \
 		moc_Ghost.o \
@@ -154,14 +158,18 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exceptions.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
-		PacMan.pro src/Character.h \
+		PacMan.pro src/AStar.h \
+		src/Blinky.h \
+		src/Character.h \
 		src/Collectible.h \
+		src/Direction.h \
 		src/GameWindow.h \
 		src/Ghost.h \
 		src/Map.h \
 		src/Pac.h \
 		src/Point.h \
-		src/Types.h src/Character.cpp \
+		src/Types.h src/AStar.cpp \
+		src/Character.cpp \
 		src/Collectible.cpp \
 		src/GameWindow.cpp \
 		src/Ghost.cpp \
@@ -354,8 +362,8 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents resources.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents src/Character.h src/Collectible.h src/GameWindow.h src/Ghost.h src/Map.h src/Pac.h src/Point.h src/Types.h $(DISTDIR)/
-	$(COPY_FILE) --parents src/Character.cpp src/Collectible.cpp src/GameWindow.cpp src/Ghost.cpp src/Map.cpp src/Pac.cpp src/Point.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents src/AStar.h src/Blinky.h src/Character.h src/Collectible.h src/Direction.h src/GameWindow.h src/Ghost.h src/Map.h src/Pac.h src/Point.h src/Types.h $(DISTDIR)/
+	$(COPY_FILE) --parents src/AStar.cpp src/Character.cpp src/Collectible.cpp src/GameWindow.cpp src/Ghost.cpp src/Map.cpp src/Pac.cpp src/Point.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -384,7 +392,17 @@ compiler_rcc_clean:
 	-$(DEL_FILE) qrc_resources.cpp
 qrc_resources.cpp: resources.qrc \
 		/usr/lib/qt5/bin/rcc \
-		assets/pac/pac0.png
+		assets/blinky/blinky0.png \
+		assets/pac/pac5.png \
+		assets/pac/pac9.png \
+		assets/pac/pac0.png \
+		assets/pac/pac4.png \
+		assets/pac/pac8.png \
+		assets/pac/pac3.png \
+		assets/pac/pac7.png \
+		assets/pac/pac2.png \
+		assets/pac/pac6.png \
+		assets/pac/pac1.png
 	/usr/lib/qt5/bin/rcc -name resources resources.qrc -o qrc_resources.cpp
 
 compiler_moc_predefs_make_all: moc_predefs.h
@@ -393,12 +411,25 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 	g++ -pipe -O2 -Wall -Wextra -dM -E -o moc_predefs.h /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_Character.cpp moc_GameWindow.cpp moc_Ghost.cpp moc_Map.cpp moc_Pac.cpp
+compiler_moc_header_make_all: moc_Blinky.cpp moc_Character.cpp moc_GameWindow.cpp moc_Ghost.cpp moc_Map.cpp moc_Pac.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_Character.cpp moc_GameWindow.cpp moc_Ghost.cpp moc_Map.cpp moc_Pac.cpp
+	-$(DEL_FILE) moc_Blinky.cpp moc_Character.cpp moc_GameWindow.cpp moc_Ghost.cpp moc_Map.cpp moc_Pac.cpp
+moc_Blinky.cpp: src/Blinky.h \
+		src/Ghost.h \
+		src/Character.h \
+		src/Map.h \
+		src/Collectible.h \
+		src/Types.h \
+		src/Direction.h \
+		src/Pac.h \
+		moc_predefs.h \
+		/usr/lib/qt5/bin/moc
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan -I/mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/Blinky.h -o moc_Blinky.cpp
+
 moc_Character.cpp: src/Character.h \
 		src/Map.h \
 		src/Character.h \
+		src/Direction.h \
 		src/Collectible.h \
 		src/Types.h \
 		moc_predefs.h \
@@ -408,6 +439,7 @@ moc_Character.cpp: src/Character.h \
 moc_GameWindow.cpp: src/GameWindow.h \
 		src/Map.h \
 		src/Character.h \
+		src/Direction.h \
 		src/Collectible.h \
 		src/Types.h \
 		moc_predefs.h \
@@ -419,6 +451,7 @@ moc_Ghost.cpp: src/Ghost.h \
 		src/Map.h \
 		src/Collectible.h \
 		src/Types.h \
+		src/Direction.h \
 		src/Pac.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
@@ -429,6 +462,7 @@ moc_Map.cpp: src/Map.h \
 		src/Map.h \
 		src/Collectible.h \
 		src/Types.h \
+		src/Direction.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include /mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan -I/mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/Map.h -o moc_Map.cpp
@@ -438,6 +472,7 @@ moc_Pac.cpp: src/Pac.h \
 		src/Map.h \
 		src/Collectible.h \
 		src/Types.h \
+		src/Direction.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include /mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan -I/mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/Pac.h -o moc_Pac.cpp
@@ -458,10 +493,19 @@ compiler_clean: compiler_rcc_clean compiler_moc_predefs_clean compiler_moc_heade
 
 ####### Compile
 
+AStar.o: src/AStar.cpp src/AStar.h \
+		src/Direction.h \
+		src/Map.h \
+		src/Character.h \
+		src/Collectible.h \
+		src/Types.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o AStar.o src/AStar.cpp
+
 Character.o: src/Character.cpp src/Character.h \
 		src/Map.h \
 		src/Collectible.h \
-		src/Types.h
+		src/Types.h \
+		src/Direction.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Character.o src/Character.cpp
 
 Collectible.o: src/Collectible.cpp src/Collectible.h \
@@ -471,16 +515,24 @@ Collectible.o: src/Collectible.cpp src/Collectible.h \
 GameWindow.o: src/GameWindow.cpp src/GameWindow.h \
 		src/Map.h \
 		src/Character.h \
+		src/Direction.h \
 		src/Collectible.h \
 		src/Types.h \
 		src/Pac.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o GameWindow.o src/GameWindow.cpp
 
-Ghost.o: src/Ghost.cpp 
+Ghost.o: src/Ghost.cpp src/Ghost.h \
+		src/Character.h \
+		src/Map.h \
+		src/Collectible.h \
+		src/Types.h \
+		src/Direction.h \
+		src/Pac.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Ghost.o src/Ghost.cpp
 
 Map.o: src/Map.cpp src/Map.h \
 		src/Character.h \
+		src/Direction.h \
 		src/Collectible.h \
 		src/Types.h \
 		src/Pac.h \
@@ -491,7 +543,8 @@ Pac.o: src/Pac.cpp src/Pac.h \
 		src/Character.h \
 		src/Map.h \
 		src/Collectible.h \
-		src/Types.h
+		src/Types.h \
+		src/Direction.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Pac.o src/Pac.cpp
 
 Point.o: src/Point.cpp src/Point.h \
@@ -501,6 +554,9 @@ Point.o: src/Point.cpp src/Point.h \
 
 qrc_resources.o: qrc_resources.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_resources.o qrc_resources.cpp
+
+moc_Blinky.o: moc_Blinky.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_Blinky.o moc_Blinky.cpp
 
 moc_Character.o: moc_Character.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_Character.o moc_Character.cpp

@@ -54,10 +54,6 @@ void Map::setupMap() {
 void Map::update() {
     for (Character *character : characters) {
         character->move();
-        if (Pac* pac = dynamic_cast<Pac*>(character))
-        {  
-            pac->checkCollisionWithCollectibles();
-        }
         teleportCharacter(character);
         character->changeDirection();
     }
@@ -229,3 +225,16 @@ void Map::removeCollectible(Collectible *collectible) {
     collectibles.removeOne(collectible);
     this->removeItem(collectible);
 }
+
+int Map::getWidth() {
+    return width;
+}
+
+int Map::getHeight() {
+    return height;
+}
+
+int Map::getTileSize() {
+    return tileSize;
+}
+

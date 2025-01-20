@@ -1,6 +1,15 @@
 <RCC>
-    <qresource prefix="/">
+    <qresource prefix="">
         <file>assets/pac/pac0.png</file>
-        <!-- Add other image files if needed -->
+        <file>assets/pac/pac1.png</file>
+        <file>assets/pac/pac2.png</file>
+        <file>assets/pac/pac3.png</file>
+        <file>assets/pac/pac4.png</file>
+        <file>assets/pac/pac5.png</file>
+        <file>assets/pac/pac6.png</file>
+        <file>assets/pac/pac7.png</file>
+        <file>assets/pac/pac8.png</file>
+        <file>assets/pac/pac9.png</file>
+        <file>assets/blinky/blinky0.png</file>
     </qresource>
 </RCC>

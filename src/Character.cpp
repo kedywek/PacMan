@@ -2,7 +2,7 @@
 #include <QDebug>
 
 Character::Character(int x, int y, int speed, QVector<QPixmap> sprites, Map *map, Direction direction, int size)
-    : direction(direction), nextDirection(direction), sprites(sprites), map(map), x(x), y(y), speed(speed), size(size) {
+    : sprites(sprites), direction(direction), nextDirection(direction), map(map), x(x), y(y), speed(speed), size(size) {
     setPixmap(sprites[0]);
     setPos(x, y);
 }
@@ -21,15 +21,19 @@ void Character::move() {
     switch (direction) {
         case UP:
             move(0, - speed);
+            this->nextSprite();
             break;
         case RIGHT:
             move(speed, 0);
+            this->nextSprite();
             break;
         case DOWN:
             move(0,speed);
+            this->nextSprite();
             break;
         case LEFT:
             move(- speed, 0);
+            this->nextSprite();
             break;
         case NO_DIRECTION:
             break;

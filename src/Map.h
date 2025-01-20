@@ -6,6 +6,7 @@
 #include "Character.h"
 #include "Collectible.h"
 #include "Types.h"
+#include "Direction.h"
 
 #define ARRAY_WIDTH 25
 #define ARRAY_HEIGHT 25
@@ -76,6 +77,10 @@ public:
     QGraphicsItem* getCollectibleAt(int x, int y);
     void teleportCharacter(Character* character);
     void removeCollectible(Collectible* collectible);
+    Direction findPath(Character* character, int targetX, int targetY);
+    int getWidth();
+    int getHeight();
+    int getTileSize();
 private:
     unsigned int width, height, tileSize, arrayWidth = ARRAY_WIDTH, arrayHeight = ARRAY_HEIGHT;
     unsigned int map[ARRAY_WIDTH][ARRAY_HEIGHT] = MAP_ARRAY;

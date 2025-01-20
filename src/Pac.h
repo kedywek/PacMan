@@ -6,6 +6,8 @@ class Pac : public Character {
 public:
     Pac(int x, int y, int speed, Map *map, Direction direction, int size);
     void checkCollisionWithCollectibles();
+    void changeDirection() override;
+    void move() override;
 protected:
     void keyPressEvent(QKeyEvent *event) override;
 
@@ -14,4 +16,6 @@ public slots:
     void moveDown();
     void moveLeft();
     void moveRight();
+private:
+    void rotatePac(Direction direction);
 };

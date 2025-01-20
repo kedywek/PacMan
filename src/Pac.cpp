@@ -1,9 +1,10 @@
 #include "Pac.h"
 #include <QKeyEvent>
 #include <QDebug>
+#include "Map.h"
 
 Pac::Pac(int x, int y, int speed, Map* map, Direction direction, int size) : Character(x, y, speed, QVector<QPixmap>(), map, direction, size) {
-    for (int i = 0; i < 1; i++) {
+    for (int i = 0; i < 10; i++) {
         QPixmap pixmap(QString(":/assets/pac/pac%0.png").arg(i));
         if (pixmap.isNull()) {
             qDebug() << "Failed to load pixmap for pac" << i;
@@ -13,6 +14,7 @@ Pac::Pac(int x, int y, int speed, Map* map, Direction direction, int size) : Cha
         }
     }
     this->setSprite(0);
+    this->setTransformOriginPoint(this->boundingRect().center());
     setFlag(QGraphicsItem::ItemIsFocusable);
     setFocus();
     qDebug() << "Pac initialized at position:" << x << y;
@@ -128,5 +130,47 @@ void Pac::checkCollisionWithCollectibles() {
                 }
             }
             break;
+        case NO_DIRECTION:
+            break;
     }
+}
+
+void Pac::rotatePac(Direction direction) {
+    switch (direction) {
+        case UP:
+            this->setRotation(270);
+            this->setTransform(QTransform());
+            break;
+        case RIGHT:
+            this->setRotation(0);
+            this->setTransform(QTransform());
+            break;
+        case DOWN:
+            this->setRotation(90);
+            this->setTransform(QTransform());
+            break;
+        case LEFT:
+            this->setRotation(180);
+            this->setTransform(QTransform());
+            this->setTransform(QTransform(1, 0, 0, -1, 0, this->boundingRect().height()), true);
+            break;
+        case NO_DIRECTION:
+            break;
+    }
+}
+
+void Pac::changeDirection() {
+    if (nextDirection == direction) {
+        return;
+    }
+    if (collidesWithWall(nextDirection)) {
+        return;
+    }
+    Character::changeDirection();
+    rotatePac(this->getDirection()); 
+}
+
+void Pac::move() {
+    Character::move();
+    checkCollisionWithCollectibles();
 }
