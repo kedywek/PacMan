@@ -3,11 +3,7 @@
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include "Map.h"
-enum State {
-    PLAYING,
-    PAUSED,
-    GAME_OVER
-};
+#include "GameState.h"
 
 class GameWindow : public QGraphicsView {
     Q_OBJECT
@@ -15,12 +11,12 @@ class GameWindow : public QGraphicsView {
 public:
     GameWindow(QWidget *parent = nullptr);
     void setupGame(size_t width, size_t height);
-    State getState();
+    GameState getState();
     void update();
-    void setState(State state);
+    void setState(GameState GameState);
     
 
 private:
-    State state;
+    GameState state;
     Map *map;
 };

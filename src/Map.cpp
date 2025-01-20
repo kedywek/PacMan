@@ -1,7 +1,12 @@
 #include "Map.h"
 #include <QDebug>
+#include <QTimer>
 #include "Pac.h"
 #include "Point.h"
+#include "Blinky.h"
+#include "Pinky.h"
+#include "Inky.h"
+#include "Clyde.h"
 
 
 Map::Map(QObject *parent, size_t width, size_t height) : QGraphicsScene(parent), width(width), height(height) {
@@ -19,7 +24,7 @@ Map::Map(QObject *parent, size_t width, size_t height) : QGraphicsScene(parent),
         this->width = width;
         this->height = width;
     }
-    
+    this->setState(DEAD);
 }
 
 void Map::setupMap() {
@@ -27,6 +32,10 @@ void Map::setupMap() {
         for (size_t j = 0; j < ARRAY_HEIGHT; j++) {
             Wall *wall = nullptr;
             Pac *pac = nullptr;
+            Blinky *blinky = nullptr;
+            Pinky *pinky = nullptr;
+            Inky *inky = nullptr;
+            Clyde *clyde = nullptr;
             switch (map[i][j]) {
                 case 0:
                     spawnPoints(j, i, tileSize/4);
@@ -42,9 +51,32 @@ void Map::setupMap() {
                     addCharacter(pac);
                     pac->setFocus();
                     break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    blinky = new Blinky(j*tileSize, i*tileSize, 4, this, RIGHT, tileSize, j*tileSize, i*tileSize);
+                    addItem(blinky);
+                    addCharacter(blinky);
+                    break;
+                case 6:
+                    pinky = new Pinky(j*tileSize, i*tileSize, 4, this, RIGHT, tileSize, j*tileSize, i*tileSize);
+                    addItem(pinky);
+                    addCharacter(pinky);
+                    break;
+                case 7:
+                    inky = new Inky(j*tileSize, i*tileSize, 2, this, RIGHT, tileSize, j*tileSize, i*tileSize);
+                    addItem(inky);
+                    addCharacter(inky);
+                    break;
+                case 8:
+                    clyde = new Clyde(j*tileSize, i*tileSize, 2, this, RIGHT, tileSize, j*tileSize, i*tileSize);
+                    addItem(clyde);
+                    addCharacter(clyde);
+                    break;
                 default:
                     break;
-                
             }
         }
     }
@@ -52,12 +84,45 @@ void Map::setupMap() {
 }
 
 void Map::update() {
+    switch (mapState) {
+        case PLAYING:
+            updateCharacters();
+            break;
+        case DEAD:
+            mapState = PAUSE;
+            break;
+        case GAME_OVER:
+            break;
+        case WIN:
+            break;
+        case PAUSE:
+            break;
+    }
+    characters.at(0)->setFocus();
+}
+
+void Map::updateCharacters(){
     for (Character *character : characters) {
         character->move();
         teleportCharacter(character);
+        if(dynamic_cast<Ghost*>(character)){
+            Ghost* ghost = dynamic_cast<Ghost*>(character);
+            ghost->setTarget();
+            ghost->ai();
+            if (ghost->checkCollisionWithPac())
+            {
+                if (ghost->getState() == Ghost::FRIGHTENED)
+                {
+                    ghost->returnHome();
+                }
+                else
+                {
+                    this->setState(DEAD);
+                }
+            }
+        }
         character->changeDirection();
     }
-    characters.at(0)->setFocus();
 }
 
 Map::MapTile::MapTile(unsigned int x, unsigned int y, unsigned int size) {
@@ -238,3 +303,34 @@ int Map::getTileSize() {
     return tileSize;
 }
 
+void Map::setState(MapState state) {
+    if (state == DEAD) {
+        for (Character *character : characters) {
+            character->setDirection(RIGHT);
+            character->move(character->getHomeX() - character->getX(), character->getHomeY() - character->getY());
+            if (dynamic_cast<Pac*>(character))
+            {
+                Pac* pac = dynamic_cast<Pac*>(character);
+                pac->setDirection(RIGHT);
+            }
+            
+        }            
+        lives--;
+        if (lives == 0) {
+            this->mapState = GAME_OVER;
+            QGraphicsTextItem* gameOverText;
+            QFont font("Arial", 32, QFont::Bold);
+            qDebug() << "Game over";
+            gameOverText = new QGraphicsTextItem("GAME OVER");
+            gameOverText->setFont(font);
+            gameOverText->setDefaultTextColor(Qt::red);
+            gameOverText->setPos(width / 2 - gameOverText->boundingRect().width() / 2, height / 3 - gameOverText->boundingRect().height() / 2);
+            gameOverText->setZValue(2);
+            addItem(gameOverText);
+        }
+        else {
+            QTimer::singleShot(2000, this, [this]() { setState(PLAYING); });
+        }
+    }
+    this->mapState = state;
+}

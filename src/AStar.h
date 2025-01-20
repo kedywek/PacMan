@@ -3,23 +3,29 @@
 #include "Map.h"
 
 class AStar {
+
 protected:
-    struct AStarNode{
+    int size;
+    struct AStarNode {
         int x, y, g, h, f;
         AStarNode* parent;
         Direction direction;
-        AStarNode(int x, int y, int g, int h, AStarNode* parent, Direction direction);
-        bool operator==(const AStarNode& other);
-        bool operator<(const AStarNode& other);
-        bool operator>(const AStarNode& other);
+        int size;
+        AStarNode(int x, int y, int g, int h, AStarNode* parent, Direction direction, int size);
+        bool operator==(const AStarNode& other) const;
+        bool operator<(const AStarNode& other) const;
+        bool operator<=(const AStarNode& other) const;
+        bool operator>(const AStarNode& other) const;
+        bool operator>=(const AStarNode& other) const;
     };
+
     struct CompareNodes {
         bool operator()(AStarNode* a, AStarNode* b);
     };
-private:
-    unsigned int getDistance(int x, int y, int targetX, int targetY);
+    struct AStarNodeComparator {
+        bool operator()(const AStar::AStarNode* a, const AStar::AStarNode* b) const;
+    };
 public:
-    AStar();
-    Direction findPath(int x, int y, int targetX, int targetY, Map* map);
+    unsigned int getDistance(int x, int y, int targetX, int targetY);
+    Direction findPath(int x, int y, int targetX, int targetY, Map* map, int size);
 };
-    

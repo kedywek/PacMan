@@ -29,6 +29,8 @@ public:
     Direction getDirection();
     bool collidesWithWall(Direction direction);
     int getSize();
+    int getHomeX();
+    int getHomeY();
 
 private:
     QVector<QPixmap> sprites;
@@ -37,4 +39,5 @@ protected:
     Direction direction, nextDirection;
     Map* map;
     int x, y, speed, currentSprite = 0, size;
+    int homeX, homeY;
 };

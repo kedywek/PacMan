@@ -7,6 +7,7 @@
 #include "Collectible.h"
 #include "Types.h"
 #include "Direction.h"
+#include "MapState.h"
 
 #define ARRAY_WIDTH 25
 #define ARRAY_HEIGHT 25
@@ -23,8 +24,8 @@
     {1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1},\
     {1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1},\
     {1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1},\
-    {1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1},\
-    {0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},\
+    {1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 7, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1},\
+    {0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 5, 8, 6, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},\
     {1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1},\
     {1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 2, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1},\
     {1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1},\
@@ -81,6 +82,10 @@ public:
     int getWidth();
     int getHeight();
     int getTileSize();
+    void updateCharacters();
+    MapState mapState;
+    int lives = 4;
+    int score = 0;
 private:
     unsigned int width, height, tileSize, arrayWidth = ARRAY_WIDTH, arrayHeight = ARRAY_HEIGHT;
     unsigned int map[ARRAY_WIDTH][ARRAY_HEIGHT] = MAP_ARRAY;
@@ -88,4 +93,5 @@ private:
     QVector<Collectible*> collectibles;
     void setNeighbours(Wall* wall);
     void spawnPoints(unsigned int x, unsigned int y, unsigned int size);
+    void setState(MapState state);
 };

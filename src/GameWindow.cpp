@@ -7,11 +7,11 @@
 
 GameWindow::GameWindow(QWidget *parent) : QGraphicsView(parent) {}
 
-void GameWindow::setState(State state) {
+void GameWindow::setState(GameState state) {
     this->state = state;
 }
 
-State GameWindow::getState() {
+GameState GameWindow::getState() {
     return state;
 }
 
@@ -34,10 +34,10 @@ int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
     GameWindow game;
     game.setupGame(1000, 800);
-    game.setState(PLAYING);
+    game.setState(GAME_STATE_PLAY);
     QTimer timer;
     QObject::connect(&timer, &QTimer::timeout, [&]() {
-        if (game.getState() == PLAYING) {
+        if (game.getState() == GAME_STATE_PLAY) {
             game.update();
         }
     });

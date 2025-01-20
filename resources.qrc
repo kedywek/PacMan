@@ -11,5 +11,12 @@
         <file>assets/pac/pac8.png</file>
         <file>assets/pac/pac9.png</file>
         <file>assets/blinky/blinky0.png</file>
+        <file>assets/blinky/blinky1.png</file>
+        <file>assets/pinky/pinky0.png</file>
+        <file>assets/pinky/pinky1.png</file>
+        <file>assets/inky/inky0.png</file>
+        <file>assets/inky/inky1.png</file>
+        <file>assets/clyde/clyde0.png</file>
+        <file>assets/clyde/clyde1.png</file>
     </qresource>
 </RCC>

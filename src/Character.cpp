@@ -5,6 +5,9 @@ Character::Character(int x, int y, int speed, QVector<QPixmap> sprites, Map *map
     : sprites(sprites), direction(direction), nextDirection(direction), map(map), x(x), y(y), speed(speed), size(size) {
     setPixmap(sprites[0]);
     setPos(x, y);
+    this->homeX = x;
+    this->homeY = y;
+    this->setZValue(1);
 }
 
 
@@ -36,6 +39,7 @@ void Character::move() {
             this->nextSprite();
             break;
         case NO_DIRECTION:
+            qDebug() << "No direction";
             break;
     }
 }
@@ -90,6 +94,9 @@ void Character::changeDirection() {
     if (collidesWithWall(nextDirection)) {
         return;
     }
+    if (nextDirection == NO_DIRECTION) {
+        return;
+    }
     direction = nextDirection;
 }
 int Character::getSize() {
@@ -114,4 +121,12 @@ bool Character::collidesWithWall(Direction direction) {
 void Character::nextSprite() {
     this->currentSprite = (this->currentSprite + 1) % this->sprites.size();
     setPixmap(sprites[this->currentSprite]);
+}
+
+int Character::getHomeX() {
+    return homeX;
+}
+
+int Character::getHomeY() {
+    return homeY;
 }

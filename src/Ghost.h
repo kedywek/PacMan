@@ -4,14 +4,28 @@
 
 class Ghost : public Character {
     Q_OBJECT
+
 public:
     Ghost(int x, int y, int speed, Map *map, Direction direction, int size);
     bool checkCollisionWithPac();
-    virtual void scatter();
     virtual void chase();
-    virtual void setTarget(Character *target);
-    virtual void runAway();
+    void setTarget();
+    virtual void scatter();
+    void runAway();
+    void returnHome();
+    void ai();
+    enum GhostState {
+        WAIT,
+        GO_TO_CORNER,
+        CHASE,
+        SCATTER,
+        FRIGHTENED,
+        DEAD
+    };
+    GhostState getState();
 protected:
     int targetX, targetY;
+    unsigned int range;
     Pac *target;
+    GhostState state;
 };
