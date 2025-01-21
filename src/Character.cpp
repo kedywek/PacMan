@@ -39,7 +39,6 @@ void Character::move() {
             this->nextSprite();
             break;
         case NO_DIRECTION:
-            qDebug() << "No direction";
             break;
     }
 }

@@ -14,7 +14,8 @@ Inky::Inky(int x, int y, int speed, Map *map, Direction direction, int size, int
         }
     }
     this->setSprite(0);
-    this->state = GO_TO_CORNER;
+    this->startTimer = 3000;
+    this->setState(BEGINING);
     this->range = map->getTileSize() * 10;
     this->homeX = homeX;
     this->homeY = homeY;
@@ -35,7 +36,7 @@ void Inky::scatter() {
         }
         
     }
-    if (state == SCATTER)
+    if (state == SCATTER || state == FRIGHTENED)
     {
         this->setTarget();
         if(aStar.getDistance (x, y, target->getX(), target->getY()) > range){

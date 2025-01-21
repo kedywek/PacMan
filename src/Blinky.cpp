@@ -14,7 +14,8 @@ Blinky::Blinky(int x, int y, int speed, Map *map, Direction direction, int size,
         }
     }
     this->setSprite(0);
-    this->state = GO_TO_CORNER;
+    this->startTimer = 10000;
+    this->setState(BEGINING);
     this->range = map->getTileSize() * 4;
     this->homeX = homeX;
     this->homeY = homeY;
@@ -32,7 +33,7 @@ void Blinky::scatter() {
             this->direction = DOWN;
         }
     }
-    if (state == SCATTER)
+    if (state == SCATTER || state == FRIGHTENED)
     {
         this->setTarget();
         if(aStar.getDistance (x, y, target->getX(), target->getY()) > range){

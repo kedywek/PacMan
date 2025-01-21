@@ -5,7 +5,7 @@ enum TypeOfObject {
     WALL = 1,
     PAC = 2,
     POINT = 3,
-    SUPER_POINT = 4,
+    STAR = 4,
     BLINKY = 5,
     PINKY = 6,
     INKY = 7,

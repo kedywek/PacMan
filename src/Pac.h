@@ -8,6 +8,7 @@ public:
     void checkCollisionWithCollectibles();
     void changeDirection() override;
     void move() override;
+    void rotatePac(Direction direction);
 protected:
     void keyPressEvent(QKeyEvent *event) override;
 
@@ -16,6 +17,4 @@ public slots:
     void moveDown();
     void moveLeft();
     void moveRight();
-private:
-    void rotatePac(Direction direction);
 };

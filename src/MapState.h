@@ -5,5 +5,6 @@ enum MapState {
     DEAD,
     GAME_OVER,
     WIN,
-    PAUSE
+    PAUSE,
+    RUNNING
 };

@@ -14,7 +14,8 @@ Clyde::Clyde(int x, int y, int speed, Map *map, Direction direction, int size, i
         }
     }
     this->setSprite(0);
-    this->state = GO_TO_CORNER;
+    this->startTimer = 1000;
+    this->setState(BEGINING);
     this->range = map->getTileSize() * 6;
     this->homeX = homeX;
     this->homeY = homeY;
@@ -33,7 +34,7 @@ void Clyde::scatter() {
             this->direction = RIGHT;
         }
     }
-    if (state == SCATTER)
+    if (state == SCATTER || state == FRIGHTENED)
     {   
         this->setTarget();
         if(aStar.getDistance (x, y, target->getX(), target->getY()) > range){

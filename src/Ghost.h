@@ -1,6 +1,7 @@
 #pragma once
 #include "Character.h"
 #include "Pac.h"
+#include <QGraphicsColorizeEffect>
 
 class Ghost : public Character {
     Q_OBJECT
@@ -20,12 +21,16 @@ public:
         CHASE,
         SCATTER,
         FRIGHTENED,
-        DEAD
+        DEAD,
+        BEGINING
     };
     GhostState getState();
+    void setState(GhostState state);
 protected:
     int targetX, targetY;
-    unsigned int range;
+    unsigned int range, startTimer;
     Pac *target;
     GhostState state;
+    void updateAppearance();
+    QGraphicsColorizeEffect *colorizeEffect;
 };

@@ -34,6 +34,7 @@ unsigned int getDistance(int x, int y, int targetX, int targetY) {
 bool AStar::CompareNodes::operator()(AStarNode* a, AStarNode* b) {
     return *a > *b;
 }
+
 unsigned int AStar::getDistance(int x, int y, int targetX, int targetY) {
     return abs(targetX - x) + abs(targetY - y);
 }
@@ -47,6 +48,8 @@ bool AStar::AStarNodeComparator::operator()(const AStar::AStarNode* a, const ASt
         }
         return a->y < b->y;
 }
+
+
 Direction AStar::findPath(int x, int y, int targetX, int targetY, Map* map, int size) {
     std::priority_queue<AStarNode*, std::vector<AStarNode*>, CompareNodes> open;
     std::set<AStarNode*, AStarNodeComparator> closed;
