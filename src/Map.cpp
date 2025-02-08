@@ -8,7 +8,7 @@
 #include "Inky.h"
 #include "Clyde.h"
 #include "Star.h"
-
+#include "GameWindow.h"
 
 Map::Map(QObject *parent, size_t width, size_t height) : QGraphicsScene(parent), width(width), height(height) {
     if (width < height){
@@ -25,10 +25,15 @@ Map::Map(QObject *parent, size_t width, size_t height) : QGraphicsScene(parent),
         this->width = width;
         this->height = width;
     }
+    this->setSceneRect(-LEFT_MARGIN, - TOP_MARGIN, this->width + LEFT_MARGIN * 2, this->height + TOP_MARGIN);
+    this->interface = new Interface(this->width, this->height);
+    this->interface->setPos(0, - TOP_MARGIN);
+    this->addItem(interface);
     this->setState(DEAD);
 }
 
 void Map::setupMap() {
+
     for (size_t i = 0; i < ARRAY_WIDTH; i++) {
         for (size_t j = 0; j < ARRAY_HEIGHT; j++) {
             Wall *wall = nullptr;
@@ -88,6 +93,14 @@ void Map::setupMap() {
     setBackgroundBrush(QBrush(Qt::black));
 }
 
+int Map::getScore() {
+    return score;
+}
+
+MapState Map::getState() {
+    return mapState;
+}
+
 void Map::update() {
     switch (mapState) {
         case PLAYING:
@@ -127,7 +140,6 @@ void Map::updateCharacters(){
                 else
                 {              
                     this->setState(DEAD);
-                    qDebug() << "Pac is dead";
                 }
             }
         }
@@ -308,6 +320,7 @@ void Map::removeCollectible(Collectible *collectible) {
     
     collectibles.removeOne(collectible);
     this->removeItem(collectible);
+    scoreChanged(score);
     if (collectibles.size() == 0)
     {
         this->setState(WIN);
@@ -327,6 +340,12 @@ int Map::getTileSize() {
     return tileSize;
 }
 
+void Map::scoreChanged(int score) {
+    interface->updateScore(score);
+}
+void Map::livesChanged(int lives) {
+    interface->updateLives(lives);
+}
 void Map::setState(MapState state) {
     if (state == DEAD) {
         for (Character *character : characters) {
@@ -363,24 +382,9 @@ void Map::setState(MapState state) {
             }      
         }            
         lives--;
+        livesChanged(lives);
         if (lives == 0) {
-            this->mapState = GAME_OVER;
-            QGraphicsTextItem* gameOverText;
-            QFont font("Arial", 32, QFont::Bold);
-            qDebug() << "Game over";
-            gameOverText = new QGraphicsTextItem("GAME OVER");
-            gameOverText->setFont(font);
-            gameOverText->setDefaultTextColor(Qt::red);
-            gameOverText->setPos(width / 2 - gameOverText->boundingRect().width() / 2, height / 3 - gameOverText->boundingRect().height());
-            gameOverText->setZValue(2);
-            addItem(gameOverText);
-            gameOverText = new QGraphicsTextItem("Score: " + QString::number(score));
-            gameOverText->setFont(font);
-            gameOverText->setDefaultTextColor(Qt::red);
-            gameOverText->setPos(width / 2 - gameOverText->boundingRect().width() / 2, height / 3);
-            gameOverText->setZValue(2);
-            addItem(gameOverText);
-
+            state = GAME_OVER;
         }
         else {
             QTimer::singleShot(2000, this, [this]() { setState(PLAYING); });
@@ -395,18 +399,6 @@ void Map::setState(MapState state) {
                 ghost->setState(Ghost::FRIGHTENED);
             }
         }
-    }
-    if (state == WIN)
-    {
-        QGraphicsTextItem* winText;
-        QFont font("Arial", 32, QFont::Bold);
-        qDebug() << "You win";
-        winText = new QGraphicsTextItem("YOU WIN");
-        winText->setFont(font);
-        winText->setDefaultTextColor(Qt::green);
-        winText->setPos(width / 2 - winText->boundingRect().width() / 2, height / 3 - winText->boundingRect().height() / 2);
-        winText->setZValue(2);
-        addItem(winText);
     }
     
     

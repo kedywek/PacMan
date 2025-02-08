@@ -3,7 +3,6 @@
 
 Character::Character(int x, int y, int speed, QVector<QPixmap> sprites, Map *map, Direction direction, int size)
     : sprites(sprites), direction(direction), nextDirection(direction), map(map), x(x), y(y), speed(speed), size(size) {
-    setPixmap(sprites[0]);
     setPos(x, y);
     this->homeX = x;
     this->homeY = y;

@@ -4,6 +4,7 @@
 #include <QGraphicsScene>
 #include "Map.h"
 #include "GameState.h"
+#include "Scoreboard.h"
 
 class GameWindow : public QGraphicsView {
     Q_OBJECT
@@ -14,9 +15,10 @@ public:
     GameState getState();
     void update();
     void setState(GameState GameState);
-    
+    void showScoreboard();
 
 private:
     GameState state;
     Map *map;
+    Scoreboard *scoreboard;
 };

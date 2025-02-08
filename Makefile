@@ -60,10 +60,13 @@ SOURCES       = src/AStar.cpp \
 		src/GameWindow.cpp \
 		src/Ghost.cpp \
 		src/Inky.cpp \
+		src/Interface.cpp \
 		src/Map.cpp \
 		src/Pac.cpp \
 		src/Pinky.cpp \
 		src/Point.cpp \
+		src/Scoreboard.cpp \
+		src/ScoreboardTable.cpp \
 		src/Star.cpp qrc_resources.cpp \
 		moc_Blinky.cpp \
 		moc_Character.cpp \
@@ -73,7 +76,9 @@ SOURCES       = src/AStar.cpp \
 		moc_Inky.cpp \
 		moc_Map.cpp \
 		moc_Pac.cpp \
-		moc_Pinky.cpp
+		moc_Pinky.cpp \
+		moc_Scoreboard.cpp \
+		moc_ScoreboardTable.cpp
 OBJECTS       = AStar.o \
 		Blinky.o \
 		Character.o \
@@ -82,10 +87,13 @@ OBJECTS       = AStar.o \
 		GameWindow.o \
 		Ghost.o \
 		Inky.o \
+		Interface.o \
 		Map.o \
 		Pac.o \
 		Pinky.o \
 		Point.o \
+		Scoreboard.o \
+		ScoreboardTable.o \
 		Star.o \
 		qrc_resources.o \
 		moc_Blinky.o \
@@ -96,7 +104,9 @@ OBJECTS       = AStar.o \
 		moc_Inky.o \
 		moc_Map.o \
 		moc_Pac.o \
-		moc_Pinky.o
+		moc_Pinky.o \
+		moc_Scoreboard.o \
+		moc_ScoreboardTable.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf \
@@ -183,11 +193,14 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		src/GameWindow.h \
 		src/Ghost.h \
 		src/Inky.h \
+		src/Interface.h \
 		src/Map.h \
 		src/MapState.h \
 		src/Pac.h \
 		src/Pinky.h \
 		src/Point.h \
+		src/Scoreboard.h \
+		src/ScoreboardTable.h \
 		src/Star.h \
 		src/Types.h src/AStar.cpp \
 		src/Blinky.cpp \
@@ -197,10 +210,13 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		src/GameWindow.cpp \
 		src/Ghost.cpp \
 		src/Inky.cpp \
+		src/Interface.cpp \
 		src/Map.cpp \
 		src/Pac.cpp \
 		src/Pinky.cpp \
 		src/Point.cpp \
+		src/Scoreboard.cpp \
+		src/ScoreboardTable.cpp \
 		src/Star.cpp
 QMAKE_TARGET  = PacMan
 DESTDIR       = 
@@ -386,8 +402,8 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents resources.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents src/AStar.h src/Blinky.h src/Character.h src/Clyde.h src/Collectible.h src/Direction.h src/GameState.h src/GameWindow.h src/Ghost.h src/Inky.h src/Map.h src/MapState.h src/Pac.h src/Pinky.h src/Point.h src/Star.h src/Types.h $(DISTDIR)/
-	$(COPY_FILE) --parents src/AStar.cpp src/Blinky.cpp src/Character.cpp src/Clyde.cpp src/Collectible.cpp src/GameWindow.cpp src/Ghost.cpp src/Inky.cpp src/Map.cpp src/Pac.cpp src/Pinky.cpp src/Point.cpp src/Star.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents src/AStar.h src/Blinky.h src/Character.h src/Clyde.h src/Collectible.h src/Direction.h src/GameState.h src/GameWindow.h src/Ghost.h src/Inky.h src/Interface.h src/Map.h src/MapState.h src/Pac.h src/Pinky.h src/Point.h src/Scoreboard.h src/ScoreboardTable.h src/Star.h src/Types.h $(DISTDIR)/
+	$(COPY_FILE) --parents src/AStar.cpp src/Blinky.cpp src/Character.cpp src/Clyde.cpp src/Collectible.cpp src/GameWindow.cpp src/Ghost.cpp src/Inky.cpp src/Interface.cpp src/Map.cpp src/Pac.cpp src/Pinky.cpp src/Point.cpp src/Scoreboard.cpp src/ScoreboardTable.cpp src/Star.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -442,9 +458,9 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 	g++ -pipe -O2 -Wall -Wextra -dM -E -o moc_predefs.h /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_Blinky.cpp moc_Character.cpp moc_Clyde.cpp moc_GameWindow.cpp moc_Ghost.cpp moc_Inky.cpp moc_Map.cpp moc_Pac.cpp moc_Pinky.cpp
+compiler_moc_header_make_all: moc_Blinky.cpp moc_Character.cpp moc_Clyde.cpp moc_GameWindow.cpp moc_Ghost.cpp moc_Inky.cpp moc_Map.cpp moc_Pac.cpp moc_Pinky.cpp moc_Scoreboard.cpp moc_ScoreboardTable.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_Blinky.cpp moc_Character.cpp moc_Clyde.cpp moc_GameWindow.cpp moc_Ghost.cpp moc_Inky.cpp moc_Map.cpp moc_Pac.cpp moc_Pinky.cpp
+	-$(DEL_FILE) moc_Blinky.cpp moc_Character.cpp moc_Clyde.cpp moc_GameWindow.cpp moc_Ghost.cpp moc_Inky.cpp moc_Map.cpp moc_Pac.cpp moc_Pinky.cpp moc_Scoreboard.cpp moc_ScoreboardTable.cpp
 moc_Blinky.cpp: src/Blinky.h \
 		src/Ghost.h \
 		src/Character.h \
@@ -453,6 +469,7 @@ moc_Blinky.cpp: src/Blinky.h \
 		src/Types.h \
 		src/Direction.h \
 		src/MapState.h \
+		src/Interface.h \
 		src/Pac.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
@@ -465,6 +482,7 @@ moc_Character.cpp: src/Character.h \
 		src/Collectible.h \
 		src/Types.h \
 		src/MapState.h \
+		src/Interface.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include /mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan -I/mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/Character.h -o moc_Character.cpp
@@ -477,6 +495,7 @@ moc_Clyde.cpp: src/Clyde.h \
 		src/Types.h \
 		src/Direction.h \
 		src/MapState.h \
+		src/Interface.h \
 		src/Pac.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
@@ -489,7 +508,9 @@ moc_GameWindow.cpp: src/GameWindow.h \
 		src/Collectible.h \
 		src/Types.h \
 		src/MapState.h \
+		src/Interface.h \
 		src/GameState.h \
+		src/Scoreboard.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include /mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan -I/mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/GameWindow.h -o moc_GameWindow.cpp
@@ -501,6 +522,7 @@ moc_Ghost.cpp: src/Ghost.h \
 		src/Types.h \
 		src/Direction.h \
 		src/MapState.h \
+		src/Interface.h \
 		src/Pac.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
@@ -514,6 +536,7 @@ moc_Inky.cpp: src/Inky.h \
 		src/Types.h \
 		src/Direction.h \
 		src/MapState.h \
+		src/Interface.h \
 		src/Pac.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
@@ -526,6 +549,7 @@ moc_Map.cpp: src/Map.h \
 		src/Types.h \
 		src/Direction.h \
 		src/MapState.h \
+		src/Interface.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include /mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan -I/mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/Map.h -o moc_Map.cpp
@@ -537,6 +561,7 @@ moc_Pac.cpp: src/Pac.h \
 		src/Types.h \
 		src/Direction.h \
 		src/MapState.h \
+		src/Interface.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include /mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan -I/mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/Pac.h -o moc_Pac.cpp
@@ -549,10 +574,21 @@ moc_Pinky.cpp: src/Pinky.h \
 		src/Types.h \
 		src/Direction.h \
 		src/MapState.h \
+		src/Interface.h \
 		src/Pac.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include /mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan -I/mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/Pinky.h -o moc_Pinky.cpp
+
+moc_Scoreboard.cpp: src/Scoreboard.h \
+		moc_predefs.h \
+		/usr/lib/qt5/bin/moc
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan -I/mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/Scoreboard.h -o moc_Scoreboard.cpp
+
+moc_ScoreboardTable.cpp: src/ScoreboardTable.h \
+		moc_predefs.h \
+		/usr/lib/qt5/bin/moc
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan -I/mnt/c/Users/Damian/Desktop/coding/UniversityBig/C++/PacMan -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/gcc/x86_64-linux-gnu/13/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include src/ScoreboardTable.h -o moc_ScoreboardTable.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -576,7 +612,8 @@ AStar.o: src/AStar.cpp src/AStar.h \
 		src/Character.h \
 		src/Collectible.h \
 		src/Types.h \
-		src/MapState.h
+		src/MapState.h \
+		src/Interface.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o AStar.o src/AStar.cpp
 
 Blinky.o: src/Blinky.cpp src/Blinky.h \
@@ -587,6 +624,7 @@ Blinky.o: src/Blinky.cpp src/Blinky.h \
 		src/Types.h \
 		src/Direction.h \
 		src/MapState.h \
+		src/Interface.h \
 		src/Pac.h \
 		src/AStar.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Blinky.o src/Blinky.cpp
@@ -596,7 +634,8 @@ Character.o: src/Character.cpp src/Character.h \
 		src/Collectible.h \
 		src/Types.h \
 		src/Direction.h \
-		src/MapState.h
+		src/MapState.h \
+		src/Interface.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Character.o src/Character.cpp
 
 Clyde.o: src/Clyde.cpp src/Clyde.h \
@@ -607,6 +646,7 @@ Clyde.o: src/Clyde.cpp src/Clyde.h \
 		src/Types.h \
 		src/Direction.h \
 		src/MapState.h \
+		src/Interface.h \
 		src/Pac.h \
 		src/AStar.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Clyde.o src/Clyde.cpp
@@ -622,7 +662,9 @@ GameWindow.o: src/GameWindow.cpp src/GameWindow.h \
 		src/Collectible.h \
 		src/Types.h \
 		src/MapState.h \
+		src/Interface.h \
 		src/GameState.h \
+		src/Scoreboard.h \
 		src/Pac.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o GameWindow.o src/GameWindow.cpp
 
@@ -633,6 +675,7 @@ Ghost.o: src/Ghost.cpp src/Ghost.h \
 		src/Types.h \
 		src/Direction.h \
 		src/MapState.h \
+		src/Interface.h \
 		src/Pac.h \
 		src/AStar.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Ghost.o src/Ghost.cpp
@@ -645,9 +688,13 @@ Inky.o: src/Inky.cpp src/Inky.h \
 		src/Types.h \
 		src/Direction.h \
 		src/MapState.h \
+		src/Interface.h \
 		src/Pac.h \
 		src/AStar.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Inky.o src/Inky.cpp
+
+Interface.o: src/Interface.cpp src/Interface.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Interface.o src/Interface.cpp
 
 Map.o: src/Map.cpp src/Map.h \
 		src/Character.h \
@@ -655,13 +702,18 @@ Map.o: src/Map.cpp src/Map.h \
 		src/Collectible.h \
 		src/Types.h \
 		src/MapState.h \
+		src/Interface.h \
 		src/Pac.h \
 		src/Point.h \
 		src/Blinky.h \
 		src/Ghost.h \
 		src/Pinky.h \
 		src/Inky.h \
-		src/Clyde.h
+		src/Clyde.h \
+		src/Star.h \
+		src/GameWindow.h \
+		src/GameState.h \
+		src/Scoreboard.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Map.o src/Map.cpp
 
 Pac.o: src/Pac.cpp src/Pac.h \
@@ -670,7 +722,8 @@ Pac.o: src/Pac.cpp src/Pac.h \
 		src/Collectible.h \
 		src/Types.h \
 		src/Direction.h \
-		src/MapState.h
+		src/MapState.h \
+		src/Interface.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Pac.o src/Pac.cpp
 
 Pinky.o: src/Pinky.cpp src/Pinky.h \
@@ -681,6 +734,7 @@ Pinky.o: src/Pinky.cpp src/Pinky.h \
 		src/Types.h \
 		src/Direction.h \
 		src/MapState.h \
+		src/Interface.h \
 		src/Pac.h \
 		src/AStar.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Pinky.o src/Pinky.cpp
@@ -689,6 +743,12 @@ Point.o: src/Point.cpp src/Point.h \
 		src/Collectible.h \
 		src/Types.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Point.o src/Point.cpp
+
+Scoreboard.o: src/Scoreboard.cpp src/Scoreboard.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Scoreboard.o src/Scoreboard.cpp
+
+ScoreboardTable.o: src/ScoreboardTable.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ScoreboardTable.o src/ScoreboardTable.cpp
 
 Star.o: src/Star.cpp src/Star.h \
 		src/Collectible.h \
@@ -724,6 +784,12 @@ moc_Pac.o: moc_Pac.cpp
 
 moc_Pinky.o: moc_Pinky.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_Pinky.o moc_Pinky.cpp
+
+moc_Scoreboard.o: moc_Scoreboard.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_Scoreboard.o moc_Scoreboard.cpp
+
+moc_ScoreboardTable.o: moc_ScoreboardTable.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_ScoreboardTable.o moc_ScoreboardTable.cpp
 
 ####### Install
 

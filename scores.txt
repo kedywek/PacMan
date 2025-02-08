@@ -1,0 +1,7 @@
+1234,380
+Kamil,200
+Szymek,350
+Michał,310
+Piotrek,660
+Pan kot,310
+Tomek,0

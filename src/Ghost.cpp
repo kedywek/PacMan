@@ -7,7 +7,6 @@
 #include <ctime>
 
 Ghost::Ghost(int x, int y, int speed, Map *map, Direction direction, int size) : Character(x, y, speed, QVector<QPixmap>(), map, direction, size) {
-    this->setSprite(0);
     this->state = WAIT;
     colorizeEffect = new QGraphicsColorizeEffect(this);
     colorizeEffect->setColor(Qt::white);  

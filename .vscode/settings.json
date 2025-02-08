@@ -69,7 +69,10 @@
         "typeinfo": "cpp",
         "variant": "cpp",
         "set": "cpp",
-        "qgraphicscolorizeeffect": "cpp"
+        "qgraphicscolorizeeffect": "cpp",
+        "qgraphicsview": "cpp",
+        "qgraphicstextitem": "cpp",
+        "qgraphicsproxywidget": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

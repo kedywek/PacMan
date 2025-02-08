@@ -3,9 +3,10 @@
 #include "Map.h"
 #include "Pac.h"
 #include <QTimer>
+#include <QDebug>
 
 
-GameWindow::GameWindow(QWidget *parent) : QGraphicsView(parent) {}
+GameWindow::GameWindow(QWidget *parent) : QGraphicsView(parent), scoreboard(nullptr) {}
 
 void GameWindow::setState(GameState state) {
     this->state = state;
@@ -18,7 +19,7 @@ GameState GameWindow::getState() {
 void GameWindow::setupGame(size_t width, size_t height) {
     map = new Map(this, width, height);
     setScene(map);
-    setFixedSize(width, height);
+    setFixedSize(width + 2 * LEFT_MARGIN, height + TOP_MARGIN);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setViewportMargins(0, 0, 0, 0);
@@ -27,7 +28,22 @@ void GameWindow::setupGame(size_t width, size_t height) {
 }
 
 void GameWindow::update() {
-    map->update();
+    if(map->getState() == WIN || map->getState() == GAME_OVER){
+        showScoreboard();
+    }else{
+        map->update();
+    }
+}
+
+
+
+void GameWindow::showScoreboard() {
+    setState(GAME_STATE_GAMEOVER);
+    if (scoreboard) {
+        delete scoreboard;
+    }
+    scoreboard = new Scoreboard(map->getScore(), this);
+    setScene(scoreboard);
 }
 
 int main(int argc, char *argv[]) {

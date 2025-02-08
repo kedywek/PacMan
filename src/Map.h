@@ -8,9 +8,14 @@
 #include "Types.h"
 #include "Direction.h"
 #include "MapState.h"
+#include <QGraphicsTextItem>
+#include "Interface.h"
+
 
 #define ARRAY_WIDTH 25
 #define ARRAY_HEIGHT 25
+#define LEFT_MARGIN 56
+#define TOP_MARGIN 100
 
 #define MAP_ARRAY {\
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},\
@@ -69,6 +74,7 @@ public:
     };
     void setupMap();
     void update();
+
     QVector<Character*> getCharacters();
     QVector<Collectible*> getCollectibles();
     void addCharacter(Character* character);
@@ -84,9 +90,15 @@ public:
     int getTileSize();
     void updateCharacters();
     MapState mapState;
-    int lives = 4;
+    int lives = 1;
     int score = 0;
+    void scoreChanged(int score);
+    void livesChanged(int lives);
+    int getScore();
+    MapState getState();
+    
 private:
+    Interface *interface;
     unsigned int width, height, tileSize, arrayWidth = ARRAY_WIDTH, arrayHeight = ARRAY_HEIGHT;
     unsigned int map[ARRAY_WIDTH][ARRAY_HEIGHT] = MAP_ARRAY;
     QVector<Character*> characters;
