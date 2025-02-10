@@ -90,7 +90,7 @@ public:
     int getTileSize();
     void updateCharacters();
     MapState mapState;
-    int lives = 1;
+    int lives = 4;
     int score = 0;
     void scoreChanged(int score);
     void livesChanged(int lives);

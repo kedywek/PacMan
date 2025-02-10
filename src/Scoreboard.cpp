@@ -69,6 +69,14 @@ void Scoreboard::loadScores() {
 }
 
 void Scoreboard::saveScores() {
+    std::sort(scores.begin(), scores.end(), [](const QPair<QString, int> &a, const QPair<QString, int> &b) {
+        return a.second > b.second;
+    });
+
+    if (scores.size() > 10) {
+        scores.resize(10);
+    }
+
     QFile file("scores.txt");
     if (file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate)) {
         QTextStream out(&file);

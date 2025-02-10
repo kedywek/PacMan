@@ -28,8 +28,8 @@ Map::Map(QObject *parent, size_t width, size_t height) : QGraphicsScene(parent),
     this->setSceneRect(-LEFT_MARGIN, - TOP_MARGIN, this->width + LEFT_MARGIN * 2, this->height + TOP_MARGIN);
     this->interface = new Interface(this->width, this->height);
     this->interface->setPos(0, - TOP_MARGIN);
-    this->addItem(interface);
     this->setState(DEAD);
+    this->addItem(interface);
 }
 
 void Map::setupMap() {
@@ -400,7 +400,5 @@ void Map::setState(MapState state) {
             }
         }
     }
-    
-    
     this->mapState = state;
 }

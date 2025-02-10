@@ -15,16 +15,10 @@ void ScoreboardDisplay::updateScoreboard() {
     addItem(title);
     title->setPos(view->width() / 2 - title->boundingRect().width() / 2, 50);
 
-    QVector<QPair<QString, int>> sortedScores = scores;
-    std::sort(sortedScores.begin(), sortedScores.end(), [](const QPair<QString, int> &a, const QPair<QString, int> &b) {
-        return a.second > b.second;
-    });
-
     int yOffset = 100;
     int count = 0;
-    for (const auto &score : sortedScores) {
-        if (count >= 10) break;
-        QGraphicsTextItem *scoreItem = new QGraphicsTextItem(QString::number(count)+". "+score.first + ": " + QString::number(score.second));
+    for (const auto &score : scores) {
+        QGraphicsTextItem *scoreItem = new QGraphicsTextItem(QString::number(count + 1) + ". " + score.first + ": " + QString::number(score.second));
         scoreItem->setFont(QFont("Arial", 18));
         scoreItem->setDefaultTextColor(Qt::white);
         addItem(scoreItem);

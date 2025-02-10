@@ -164,6 +164,7 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_config.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exclusive_builds.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/toolchain.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_pre.prf \
@@ -286,6 +287,7 @@ Makefile: PacMan.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf 
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_config.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exclusive_builds.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/toolchain.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_pre.prf \
@@ -365,6 +367,7 @@ Makefile: PacMan.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf 
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_config.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_post.prf:
+.qmake.stash:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exclusive_builds.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/toolchain.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_pre.prf:
@@ -744,10 +747,11 @@ Point.o: src/Point.cpp src/Point.h \
 		src/Types.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Point.o src/Point.cpp
 
-Scoreboard.o: src/Scoreboard.cpp src/Scoreboard.h
+Scoreboard.o: src/Scoreboard.cpp src/Scoreboard.h \
+		src/ScoreboardTable.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Scoreboard.o src/Scoreboard.cpp
 
-ScoreboardTable.o: src/ScoreboardTable.cpp 
+ScoreboardTable.o: src/ScoreboardTable.cpp src/ScoreboardTable.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ScoreboardTable.o src/ScoreboardTable.cpp
 
 Star.o: src/Star.cpp src/Star.h \
